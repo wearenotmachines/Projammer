@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
+Route::get('/', function() {
+	$u = App\Projammer\Models\ProjammerUser::find(1);
+	echo $u->developer;
 });
