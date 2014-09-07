@@ -5,7 +5,7 @@ class Developer extends ProjammerModel {
 	protected $table = "developers";
 	protected $fillable = ["user_id", "email", "name"];
 	protected $validation = [
-		"email" => 'required|email|unique:developers,email,$id',
+		"email" => 'required|email|unique:developers,email,:id',
 		"name" => "required"
 	];
 

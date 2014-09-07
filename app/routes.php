@@ -13,5 +13,19 @@
 
 Route::get('/', function() {
 	$u = App\Projammer\Models\ProjammerUser::find(1);
-	echo $u->developer;
+	$d = $u->developer;
+
+	echo $d->user;
 });
+
+Route::get("/loginAlex", function() {
+	$u = App\Projammer\Models\ProjammerUser::where("email", "=", "alex.callard@itrm.co.uk")->first();
+	Auth::login($u);
+	echo Auth::user();
+});
+
+Route::get("/whoami", function() {
+	echo Auth::user();
+});
+
+Route::resource("project", "App\Projammer\Controllers\ProjectController");

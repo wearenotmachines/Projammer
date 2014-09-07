@@ -5,6 +5,7 @@
 /app/storage
 composer.phar
 composer.lock
+/public/vendor
 .env.*.php
 .env.php
 .DS_Store
