@@ -1,4 +1,7 @@
 <?php namespace App\Projammer\Models;
+use App\Projammer\Models\Option;
+use App\Projammer\Models\Client;
+use App\Projammer\Models\Deliverable;
 
 class Project extends ProjammerModel {
 
@@ -18,6 +21,18 @@ class Project extends ProjammerModel {
 
 	public static function getProjectStatuses() {
 		return self::$statuses;
+	}
+
+	public function options() {
+		return $this->hasMany("App\Projammer\Models\Option");
+	}
+
+	public function deliverables() {
+		return $this->hasMany("App\Projammer\Models\Deliverable");
+	}
+
+	public function phases() {
+		return $this->hasMany("App\Projammer\Models\Phase");
 	}
 
 }
