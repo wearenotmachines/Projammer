@@ -35,4 +35,8 @@ class Project extends ProjammerModel {
 		return $this->hasMany("App\Projammer\Models\Phase");
 	}
 
+	public function artefacts() {
+		return $this->hasMany("App\Projammer\Models\Artefact");
+	}
+
 }

@@ -20,4 +20,12 @@ class Deliverable extends ProjammerModel {
 		return $this->belongsToMany("App\Projammer\Models\Option");
 	}
 
+	public function artefacts() {
+		return $this->morphToMany("App\Projammer\Models\Artefact", "artefactable");
+	}
+
+	public function requirements() {
+		return $this->hasMany("App\Projammer\Models\Requirement");
+	}
+
 }
