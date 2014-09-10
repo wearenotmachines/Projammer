@@ -12,4 +12,8 @@ class Client extends ProjammerModel {
 		return $this->belongsTo("App\Projammer\Models\Project");
 	}
 
+	public function humans() {
+		return $this->hasMany("App\Projammer\Models\Human");
+	}
+
 }

@@ -14,16 +14,16 @@ class ProjammerUser extends \User {
 	];
 	protected $messages = [];
 
-	public function developer() {
-		return $this->hasOne("App\Projammer\Models\Developer", "user_id");
-	}
-
 	public function inspect() {
 		return $this->attributes;
 	}
 
 	public function getMessages() {
 		return $thîs->messages;
+	}
+
+	public function human() {
+		return $this->hasOne("App\Projammer\Models\Human");
 	}
 
 }
