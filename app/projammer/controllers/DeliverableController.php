@@ -3,6 +3,8 @@
 use App\Projammer\Models\Project;
 use App\Projammer\Models\Deliverable;
 use \View;
+use \Input;
+use \Session;
 
 class DeliverableController extends ProjammerController {
 	
@@ -16,8 +18,14 @@ class DeliverableController extends ProjammerController {
 
 	}
 
-	public function update() {
-		$deliverableData = Input::get("deliverable");
-		echo "<pre>"; print_r($deliverableData); echo "</pre>";
+	public function update($identifier) {
+		$this->layout = null;
+		$deliverableData = current(Input::get("deliverable"));
+		$deliverable = Deliverable::find($identifier);
+		if (!array_key_exists("required", $deliverableData)) $deliverableData['required'] = 0;
+		foreach ($deliverableData AS $field=>$value) {
+			$deliverable->{$field} = $value;
+			$deliverable->save();
+		}
 	}
 }

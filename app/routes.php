@@ -29,5 +29,5 @@ Route::get("/whoami", function() {
 });
 
 Route::resource("project", "App\Projammer\Controllers\ProjectController");
-
+Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController");
 Route::get("/project/{identifier}/estimate", "App\Projammer\Controllers\DeliverableController@estimate");

@@ -7,5 +7,4 @@ class ProjammerModel extends \Eloquent {
 	
 	protected $messages = [];
 
-
 }
