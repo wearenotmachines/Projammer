@@ -15,7 +15,7 @@ class TimestampsOnRoles extends Migration {
 		Schema::table("roles", function($table) {
 			$table->integer("created_by")->after("label")->unsigned();
 			$table->timestamps();
-			$table->foreign("created_by")->references("id")->on("users")->onUpdate("cascade")->onDelete("restrict");
+			$table->foreign("created_by", "fk_roles_creator")->references("id")->on("users")->onUpdate("cascade")->onDelete("restrict");
 		});
 	}
 
@@ -27,8 +27,9 @@ class TimestampsOnRoles extends Migration {
 	public function down()
 	{
 		Schema::table("roles", function($table) {
+			$table->dropForeign("fk_roles_creator");
 			$table->dropColumn("created_by");
-			$table->dropCollumn("created_at");
+			$table->dropColumn("created_at");
 			$table->dropColumn("updated_at");
 		});
 	}
