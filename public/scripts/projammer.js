@@ -3,7 +3,7 @@
 var projammer = {
 	
 	hello : function() {
-		alert("Hello, you're looking sharp");
+		toastr.info("You're using Projammer");
 	}
 
 };
@@ -15,11 +15,25 @@ projammer.projects = {};
 //DELIVERABLES
 
 projammer.deliverables = {
+
+	init : function() {
+		$('[data-role="save-deliverable"]').on("click", projammer.deliverables.update);
+	},
 	
+	update : function(e) {
+		e.preventDefault();
+		var trigger = $(e.target);
+		var deliverableRow = trigger.closest("tr.deliverable-row");
+		var deliverableData = deliverableRow.find(":input").serialize();
+		console.log(deliverableData);
+		toastr.info("Saving deliverable");
+	}
+
 }
 
 //DELIVERABLES END
 
 $(document).ready(function() {
 	projammer.hello();
+	projammer.deliverables.init();
 });

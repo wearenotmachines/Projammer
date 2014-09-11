@@ -5,6 +5,7 @@
 	<title><?= $title; ?></title>
 	<link rel="stylesheet" href="/css/vendor/jqueryui/jquery-ui.min.css" />
 	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/vendor/toastr.min.css" />
 	<script type="text/javascript" src="/vendor/jquery.js"></script>
 	<script type="text/javascript" src="/vendor/jqueryui/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
@@ -14,5 +15,6 @@
 	<?= $content; ?>
 	</div>
 </body>
+<script type="text/javascript" src="/vendor/toastr.min.js"></script>
 <script type="text/javascript" src="/scripts/projammer.js"></script>
 </html>
