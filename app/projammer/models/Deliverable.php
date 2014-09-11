@@ -10,6 +10,7 @@ class Deliverable extends ProjammerModel {
 	use HasCreatorTrait;
 
 	protected $table = "deliverables";
+	protected $guarded = ["id", "created_at", "deleted_at"];
 
 	public function project() {
 		return $this->belongsTo("App\Projammer\Models\Project");

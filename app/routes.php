@@ -28,6 +28,16 @@ Route::get("/whoami", function() {
 	echo Auth::user();
 });
 
+/**************************** PROJECT ROUTES *****************************************/
+
 Route::resource("project", "App\Projammer\Controllers\ProjectController");
+
+/**************************** PROJECT ROUTES END *************************************/
+
+/**************************** DELIVERABLES ROUTES *****************************************/
+
 Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController");
 Route::get("/project/{identifier}/estimate", "App\Projammer\Controllers\DeliverableController@estimate");
+Route::post("/project/{identifier}/estimate/save", "App\Projammer\Controllers\DeliverableController@saveAll");
+
+/**************************** DELIVERABLES ROUTES END *************************************/
