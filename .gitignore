@@ -11,3 +11,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 readme.md
+
+tests/_output/*

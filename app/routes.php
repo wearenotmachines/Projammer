@@ -12,11 +12,18 @@
 */
 
 Route::get('/', function() {
-	$u = App\Projammer\Models\ProjammerUser::find(1);
-	$d = $u->developer;
+	$u = App\Projammer\Models\ProjammerUser::first();
 
-	echo $d->user;
+	echo $u;
 });
+
+Route::get('/login', function() {
+	if (Auth::check()) return Redirect::to("/project");
+	return View::make("layouts.standard", array("title"=>"Log in to Projammer"))->nest("content", "auth.login");
+});
+Route::post("/login", "Projammer\Controllers\AuthController@login");
+
+Route::get("/logout", "Projammer\Controllers\AuthController@logout");
 
 Route::get("/loginAlex", function() {
 	$u = App\Projammer\Models\ProjammerUser::where("email", "=", "alex.callard@itrm.co.uk")->first();
@@ -30,14 +37,24 @@ Route::get("/whoami", function() {
 
 /**************************** PROJECT ROUTES *****************************************/
 
-Route::resource("project", "App\Projammer\Controllers\ProjectController");
+Route::resource("project", "Projammer\Controllers\ProjectController");
+
+Route::get("/projects", function() {
+	$output = array();
+	foreach (Projammer\Models\Project::with("creator")->get() AS $project) {
+		$project->created_at_timestamp = strtotime($project->created_at)*100;
+		$project->updated_at_timestamp = strtotime($project->updated_at)*100;
+		$output[] = $project;
+	}
+	return $output;
+});
 
 /**************************** PROJECT ROUTES END *************************************/
 
 /**************************** DELIVERABLES ROUTES *****************************************/
 
-Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController");
 Route::get("/project/{identifier}/estimate", "App\Projammer\Controllers\DeliverableController@estimate");
 Route::post("/project/{identifier}/estimate/save", "App\Projammer\Controllers\DeliverableController@saveAll");
-
+Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController");
+// Route::post("/deliverable/store", "App\Projammer\Controllers\DeliverableController@store");
 /**************************** DELIVERABLES ROUTES END *************************************/

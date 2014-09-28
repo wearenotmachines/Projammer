@@ -6,20 +6,31 @@
 	<link rel="stylesheet" href="/css/main.css" />
 	<link rel="stylesheet" href="/vendor/jqueryui/jquery-ui.min.css" />
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="/vendor/toastr/toastr.min.css" />
-	<link rel="stylesheet" href="/vendor/ladda/css/ladda-themeless.min.css" />
 	<script type="text/javascript" src="/vendor/jquery.js"></script>
 	<script type="text/javascript" src="/vendor/jqueryui/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/vendor/date/moment.min.js"></script>
 </head>
-<body data-project-id="<?= isset($project) ? $project->id : null; ?>">
-<div class="container">
+<body <?= isset($project) ? "data-project-id='".$project->id."'" : ""; ?><?= isset($bodyClass) ? " class='".$bodyClass."'" : ""; ?>>
+<div class="container" ng-app>
+	<div id="header">
+		<div id="navigation"></div>
+		<div id="userContext">
+			<? if (Auth::check()) { ?>
+				<p>Hello <?= Auth::user()->display_name; ?> - <a href="/logout">Log out</a></p>
+			<? } else { ?>
+				<p>You are not logged in - <a href="/login">log in</a></p>
+			<? } ?>
+	</div>
+	<div id="messages">
+	<? if (!empty(Session::get("message"))) { ?>
+	<p class="message"><?= Session::get("message"); ?></p>
+	<? } ?>
+	</div>
 	<?= $content; ?>
 	</div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+	<script type="text/javascript" src="/scripts/projammer-ng.js"></script>
 </body>
-<script type="text/javascript" src="/vendor/toastr/toastr.min.js"></script>
-<script type="text/javascript" src="/vendor/ladda/js/spin.min.js"></script>
-<script type="text/javascript" src="/vendor/ladda/js/ladda.min.js"></script>
-<script type="text/javascript" src="/vendor/ladda/js/ladda.jquery.min.js"></script>
-<script type="text/javascript" src="/scripts/projammer.js"></script>
+
 </html>
