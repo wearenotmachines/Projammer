@@ -1,8 +1,8 @@
 <?php namespace Projammer\Controllers;
 
 use Projammer\Models\Project;
-use View;
-use Input;
+use Projammer\Models\Client;
+use View, Input, Auth, Redirect;
 
 class ProjectController extends ProjammerController {
 
@@ -18,8 +18,7 @@ class ProjectController extends ProjammerController {
 	 * @return Response
 	 */
 	public function index()	{
-		$this->_data['projects'] = Project::all();
-		$this->_data['projectStatuses'] = Project::getProjectStatuses();
+		$this->_data['projectStatuses'] = array_combine(Project::getProjectStatuses(), array_map(function($element) { return ucfirst($element); }, Project::getProjectStatuses()));
 		$this->layout->content = View::make("projects.index", $this->_data);
 	}
 
@@ -30,7 +29,9 @@ class ProjectController extends ProjammerController {
 	 * @return Response
 	 */
 	public function create() {
-		$this->layout->content = View::make("projects.create", $this->_data);
+		$this->_data['clients'] = Client::all()->lists("name", "id");
+		$this->_data['projectStatuses'] = array_combine(Project::getProjectStatuses(), array_map(function($element) { return ucfirst($element); }, Project::getProjectStatuses()));
+		$this->layout->content = View::make("projects.create", $this->_data)->nest("contextNavigation", "common.contextNavigation", array("active"=>"definition"));
 	}
 
 
@@ -40,7 +41,14 @@ class ProjectController extends ProjammerController {
 	 * @return Response
 	 */
 	public function store()	{
-		//
+		$p = new Project(Input::get("project"));
+		$p->created_by = Auth::user()->id;
+		if ($p->isValid()) {
+			$p->save();
+			return Redirect::to("/project/".$p->id);
+		} else {
+			return Redirect::to("/project/create")->withInput()->withErrors($p->getValidator());
+		}
 	}
 
 
@@ -75,10 +83,12 @@ class ProjectController extends ProjammerController {
 	 */
 	public function update($id) {
 		$p = Project::find($id);
+		$p->last_updated_by = Auth::user()->id;
 		foreach (Input::get("project") AS $k=>$v) {
 			$p->{$k} = $v;
 		}
 		$p->save();
+		$p->updater;
 		return $p;
 	}
 

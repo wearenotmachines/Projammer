@@ -41,7 +41,7 @@ Route::resource("project", "Projammer\Controllers\ProjectController");
 
 Route::get("/projects", function() {
 	$output = array();
-	foreach (Projammer\Models\Project::with("creator")->get() AS $project) {
+	foreach (Projammer\Models\Project::orderBy("updated_at", "desc")->with("creator", "updater")->get() AS $project) {
 		$project->created_at_timestamp = strtotime($project->created_at)*100;
 		$project->updated_at_timestamp = strtotime($project->updated_at)*100;
 		$output[] = $project;

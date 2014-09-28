@@ -21,6 +21,7 @@
 			<? } else { ?>
 				<p>You are not logged in - <a href="/login">log in</a></p>
 			<? } ?>
+		</div>
 	</div>
 	<div id="messages">
 	<? if (!empty(Session::get("message"))) { ?>

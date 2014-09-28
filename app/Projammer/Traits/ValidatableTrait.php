@@ -4,13 +4,14 @@ trait ValidatableTrait {
 
 	protected $errors = [];
 	protected $invalid = [];
+	protected $validator;
 
 	public function isValid() {
 		self::_reconcileValidationIDs($this);
-		$validator = \Validator::make($this->attributes, $this->validation);
-		if ($validator->fails()) {
-			$this->errors = $validator->messages();
-			$this->invalid = $validator->failed();
+		$this->validator = \Validator::make($this->attributes, $this->validation);
+		if ($this->validator->fails()) {
+			$this->errors = $this->validator->messages();
+			$this->invalid = $this->validator->failed();
 			return false;
 		} else {
 			$this->errors = [];
@@ -31,6 +32,10 @@ trait ValidatableTrait {
 
 	public function getInvalidFields() {
 		return $this->invalid;
+	}
+
+	public function getValidator() {
+		return $this->validator;
 	}
 
 }

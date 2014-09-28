@@ -6,7 +6,7 @@ angular.module('ng').filter("timeAgo", function() {
 	}
 });
 
-function ProjectsController($scope, $http) {
+function ProjectOverviewController($scope, $http) {
 
 	$http.get("/projects").success(function(projects) {
 		$scope.projects = projects;
@@ -19,6 +19,7 @@ function ProjectsController($scope, $http) {
 			}	
 		}).success(function(response) {
 			project.updated_at = moment(response.updated_at).fromNow();
+			project.updater = response.updater;
 		});
 	}
 

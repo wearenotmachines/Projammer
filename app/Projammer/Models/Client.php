@@ -1,4 +1,4 @@
-<?php namespace App\Projammer\Models;
+<?php namespace Projammer\Models;
 
 class Client extends ProjammerModel {
 	

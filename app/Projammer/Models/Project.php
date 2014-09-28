@@ -9,13 +9,14 @@ use Projammer\Models\Option;
 use Projammer\Models\Client;
 use Projammer\Models\Deliverable;
 use Projammer\Traits\HasCreatorTrait;
+use Projammer\Traits\HasUpdaterTrait;
 
 /**
  * Defines an identified and contained unit of work for a *Client*, composed of a set of *Requirements*, developed in one or more *Iterations* that yield a set of *Deliverables*, scheduled against *Milestones*
  * @package  Projammer
  */
 class Project extends ProjammerModel {
-	use HasCreatorTrait;
+	use HasCreatorTrait, HasUpdaterTrait;
 	/**
 	 * @ignore
 	 */
@@ -26,7 +27,7 @@ class Project extends ProjammerModel {
 	 * ["name","description","start_date", "finish_date", "status", "created_by", "last_updated_by"]
 	 * @var array
 	 */
-	protected $fillable = ["name","description","start_date", "finish_date", "status", "created_by", "last_updated_by"];
+	protected $fillable = ["name","description","start_date", "finish_date", "status", "client_id", "created_by", "last_updated_by"];
 	/**
 	 * The status values permitted for projects.
 	 * 
@@ -46,10 +47,10 @@ class Project extends ProjammerModel {
 	 * @var array
 	 */
 	protected $validation = [
-		"title" => "required",
+		"name" => "required",
 		"status" => "in:presales,planning,development,uat,beta,live,snagging,archived,cancelled",
 		"created_by" => "required",
-		"client" => "required"
+		"client_id" => "required"
 	];
 
 	/**
