@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function() {
-	$u = App\Projammer\Models\ProjammerUser::first();
+	$u = Projammer\Models\ProjammerUser::first();
 
 	echo $u;
 });
@@ -26,7 +26,7 @@ Route::post("/login", "Projammer\Controllers\AuthController@login");
 Route::get("/logout", "Projammer\Controllers\AuthController@logout");
 
 Route::get("/loginAlex", function() {
-	$u = App\Projammer\Models\ProjammerUser::where("email", "=", "alex.callard@itrm.co.uk")->first();
+	$u = Projammer\Models\ProjammerUser::where("email", "=", "alex.callard@itrm.co.uk")->first();
 	Auth::login($u);
 	echo Auth::user();
 });
@@ -38,16 +38,8 @@ Route::get("/whoami", function() {
 /**************************** PROJECT ROUTES *****************************************/
 
 Route::resource("project", "Projammer\Controllers\ProjectController");
-
-Route::get("/projects", function() {
-	$output = array();
-	foreach (Projammer\Models\Project::orderBy("updated_at", "desc")->with("creator", "updater")->get() AS $project) {
-		$project->created_at_timestamp = strtotime($project->created_at)*100;
-		$project->updated_at_timestamp = strtotime($project->updated_at)*100;
-		$output[] = $project;
-	}
-	return $output;
-});
+Route::get("/projects", "Projammer\Controllers\ProjectController@index");
+Route::get("/projects/listing", "Projammer\Controllers\ProjectController@listing");
 
 /**************************** PROJECT ROUTES END *************************************/
 
@@ -58,3 +50,7 @@ Route::post("/project/{identifier}/estimate/save", "App\Projammer\Controllers\De
 Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController");
 // Route::post("/deliverable/store", "App\Projammer\Controllers\DeliverableController@store");
 /**************************** DELIVERABLES ROUTES END *************************************/
+
+/**************************** API ROUTES **********************************************/
+Route::resource("api/project", "Projammer\Controllers\API\ProjectAPIController");
+/**************************************************************************************/

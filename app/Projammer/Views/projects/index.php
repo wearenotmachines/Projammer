@@ -12,7 +12,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="project in projects">
-			<td>{{project.name}}</td>
+			<td><a href="/projects/edit/{{project.id}}">{{project.name}}</a></td>
 			<td><?= Form::select("project.status", $projectStatuses, null, array("autocomplete"=>"off", "ng-model"=>"project.status", "ng-change"=>"updateProjectStatus(project)")); ?></td>
 			<td>{{project.creator.display_name}}</td>
 			<td>{{ project.created_at | timeAgo }}</td>
@@ -21,4 +21,21 @@
 		</tr>
 	</tbody>
 	</table>
+</div>
+<div class="newProject" ng-controller="ProjectEditorController">
+	<form>
+	<div>
+		<label>Project Name</label>
+		<input type="text" ng-model="project.name" name="name" placeholder="the label for the project" />
+	</div>
+	<div>
+		<label>Project Description</label>
+		<textarea ng-model="project.description" name="description" placeholder="a brief description"></textarea>
+	</div>
+	<div>
+		<label>Project Status</label>
+		<?= Form::select("status", $projectStatuses, "presales", array("autocomplete"=>"off", "ng-model"=>"project.status")); ?>
+	</div>
+	<button ng-click="createProject()">Save</button>
+	</form>
 </div>
