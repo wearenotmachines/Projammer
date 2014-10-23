@@ -16,6 +16,11 @@ class ProjectAPIController extends APIController {
 		]
 	];
 
+	/**
+	 * Gets a listing of all projects  - output is in the "projects" key of the JSON
+	 * @param  array  $params Received params - normalized to [ num => int (>=0), offset => int (>=0) ]
+	 * @return \Illuminate\Http\JsonResponse        An APIController response with a 'project's key containing project listings
+	 */
 	public function index($params=array()) {
 		$this->_method = "index";
 		if ($this->_checkParams($this->_params=$params, $this->_method)) {
@@ -26,6 +31,12 @@ class ProjectAPIController extends APIController {
 
 	public function create() {}
 
+	/**
+	 * Stores an instance of Projammer\Project contsructed from POST['project'];
+	 * Defaults creator to the current user
+	 * @todo  Require Auth
+	 * @return \Illuminate\Http\JsonResponse 	An APIController response containing the newly generated Project instance in a 'project' key
+	 */
 	public function store() {
 		$this->_method = "store";
 		$project = new Project(Input::get("project"));
@@ -41,14 +52,25 @@ class ProjectAPIController extends APIController {
 		return $this->_output();
 	}
 
+	/**
+	 * A single instance of the Project located by $identifier
+	 * @param  string | int $identifier Either the slug for or id of a project
+	 * @todo  Add slugifier trait
+	 * @return \Illuminate\Http\JsonResponse             An APIController response a 'project' key listing the matched object
+	 */
 	public function show($identifier) {
-		$project = Project::where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
+		$project = Project::with("creator")->where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
 		$this->_payload = array("project"=>$project);
 		return $this->_output();
 	}
 
+	/**
+	 * Gets an instance of Project for editing
+	 * @param  string | int $identifier Either the slug for or id of a project
+	 * @return \Illuminate\Http\JsonResponse             An APIController response a 'project' key listing the matched object
+	 */
 	public function edit($identifier) {
-		$project = Project::where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
+		$project = Project::with("creator")->where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
 		$this->_payload = array("project"=>$project);
 		return $this->_jsonResponse();
 	}

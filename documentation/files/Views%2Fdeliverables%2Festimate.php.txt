@@ -1,0 +1,46 @@
+
+<table class="table deliverable" data-role="deliverables">
+	<thead>
+		<th>Deliverable</th>
+		<th>Note</th>
+		<th>Required</th>
+		<th>Time</th>
+		<th>Cost</th>
+		<th>Options</th>
+		<th>Actions</th>
+	</thead>
+	<tbody class="sortable">
+	<? foreach ($deliverables as $d) { ?>
+		<tr data-state="clean" data-monitor-state data-role="deliverable">
+			<input type="hidden" name="deliverable[<?= $d->id; ?>][display_order]" value="<?= $d->display_order; ?>" data-role="display-order" />
+			<td><input class="form-control" type="text" name="deliverable[<?= $d->id; ?>][name]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-name" value="<?= $d->name; ?>" /></td>
+			<td><textarea class="form-control" name="deliverable[<?= $d->id; ?>][note]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-note"><?= $d->note; ?></textarea></td>
+			<td><input class="form-control" type="checkbox" name="deliverable[<?= $d->id; ?>][required]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-required" value="1" <?= $d->required ? 'checked="checked"' : ''; ?> /></td>
+			<td><input class="form-control" type="text" name="deliverable[<?= $d->id; ?>][development_time]" data-role="deliverable-development_time" value="<?= $d->development_time; ?>"></td>
+			<td><input class="form-control" type="text" name="deliverable[<?= $d->id; ?>][development_cost]" data-role="deliverable-development_cost" value="<?= $d->development_cost; ?>" /></td>
+			<td></td>
+			<td><button data-role="save-deliverable" data-deliverable-id="<?= $d->id; ?>" type="button" data-monitored-button class="btn btn-default btn-update-deliverable"><span class="glyphicon glyphicon-ok-sign"></span> </button></td>
+		</tr>
+	<? } ?>
+		<tr data-role="new-deliverable">
+			<input type="hidden" name="deliverable[<?= $newDeliverableID; ?>][display_order]" value="1000" data-role="display-order" />
+			<input type="hidden" name="deliverable[<?= $newDeliverableID; ?>][project_id]" value="<?= $project->id; ?>" />
+			<td><input class="form-control" type="text" name="deliverable[<?= $newDeliverableID; ?>][name]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-name" /></td>
+			<td><textarea class="form-control" type="text" name="deliverable[<?= $newDeliverableID; ?>][note]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-note"></textarea></td>
+			<td><input class="form-control" type="checkbox" name="deliverable[<?= $newDeliverableID; ?>][required]" data-deliverable-id="<?= $d->id; ?>" data-role="deliverable-required" value="1" checked='checked' /></td>
+			<td><input class="form-control" type="text" name="deliverable[<?= $newDeliverableID; ?>][development_time]" data-role="deliverable-development_time" /></td>
+			<td><input class="form-control" type="text" name="deliverable[<?= $newDeliverableID; ?>][development_cost]" data-role="deliverable-development_cost" /></td>
+			<td></td>
+			<td><button type="button" data-role="create-deliverable" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> </button></td>
+		</tr>
+	</tbody>
+	<tfoot>
+	<tr data-role="totalling">
+		<th colspan="3">Totals</th>
+		<th><span data-role="total-time"></span></th>
+		<th><span data-role="total-cost"></span></th>
+		<th colspan="2"></th>
+	</tr>
+	</tfoot>
+</table>
+<button type="button" class="btn btn-primary ladda-button" data-style="expand-right" data-size="xs" data-role="save-all" data-project-id="<?= $project->id; ?>"><span class="ladda-label">Save all</span></button>
