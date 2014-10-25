@@ -24,7 +24,7 @@ class ProjectAPIController extends APIController {
 	public function index($params=array()) {
 		$this->_method = "index";
 		if ($this->_checkParams($this->_params=$params, $this->_method)) {
-			$this->_payload = ["projects"=>Project::with("creator")->skip($this->_params["offset"])->take($this->_params["num"])->get()];
+			$this->_payload = ["projects"=>Project::with(["creator", "updater"])->skip($this->_params["offset"])->take($this->_params["num"])->get()];
 		}
 		return $this->_output();
 	}
@@ -41,10 +41,11 @@ class ProjectAPIController extends APIController {
 		$this->_method = "store";
 		$project = new Project(Input::get("project"));
 		$project->created_by = Auth::user()->id;
+		$project->last_updated_by = Auth::user()->id;
 		$project->client_id = 1;
 		if ($project->isValid()) {
 			$project->save();
-			$project->load("creator");
+			$project->load(["creator", "updater"]);
 		} else {
 			$this->_makeErrorMessage($project->getErrors());
 		}
