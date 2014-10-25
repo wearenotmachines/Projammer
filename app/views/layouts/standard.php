@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="/vendor/date/moment.min.js"></script>
 </head>
 <body <?= isset($project) ? "data-project-id='".$project->id."'" : ""; ?><?= isset($bodyClass) ? " class='".$bodyClass."'" : ""; ?>>
-<div class="container" ng-app>
+<div class="container" ng-app="Projammer">
 	<div id="header">
 		<div id="navigation"></div>
 		<div id="userContext">
