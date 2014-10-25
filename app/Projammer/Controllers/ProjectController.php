@@ -19,6 +19,7 @@ class ProjectController extends ProjammerController {
 	 */
 	public function index()	{
 		$this->_data['projectStatuses'] = array_combine(Project::getProjectStatuses(), array_map(function($element) { return ucfirst($element); }, Project::getProjectStatuses()));
+		$this->_data['projectEditor'] = Project::getEditor(Project::first());
 		$this->layout->content = View::make("projects.index", $this->_data);
 	}
 

@@ -22,20 +22,4 @@
 	</tbody>
 	</table>
 </div>
-<div class="newProject" ng-controller="ProjectEditorController">
-	<form>
-	<div>
-		<label>Project Name</label>
-		<input type="text" ng-model="project.name" name="name" placeholder="the label for the project" />
-	</div>
-	<div>
-		<label>Project Description</label>
-		<textarea ng-model="project.description" name="description" placeholder="a brief description"></textarea>
-	</div>
-	<div>
-		<label>Project Status</label>
-		<?= Form::select("status", $projectStatuses, "presales", array("autocomplete"=>"off", "ng-model"=>"project.status")); ?>
-	</div>
-	<button ng-click="createProject()">Save</button>
-	</form>
-</div>
+<?= !empty($projectEditor) ? $projectEditor : ""; ?>
