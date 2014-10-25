@@ -53,6 +53,8 @@ class Project extends ProjammerModel {
 		"client_id" => "required"
 	];
 
+	protected static $componentViewPath = "components.projects";
+
 	/**
 	 * Returns the Client for this project.
 	 * @return \Projammer\Client the client
