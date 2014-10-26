@@ -39,6 +39,13 @@
 	</div>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 	<script type="text/javascript" src="/scripts/projammer-ng.js"></script>
+	<?if  (!empty($jsVariables)) { ?>
+	<script type="text/javascript">
+	<? foreach ($jsVariables AS $group=>$vars) { ?>
+		window.<?= $group; ?> = <?= $vars; ?>;
+	<? } ?>
+	</script>
+	<? } ?>
 </body>
 
 </html>

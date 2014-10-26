@@ -6,9 +6,12 @@ angular.module('ng').filter("timeAgo", function() {
 	}
 });
 
-var Projammer = angular.module("Projammer", ['ProjectManager', 'Utilities']);
+var Projammer = angular.module("Projammer", ['ProjectManager', 'Utilities', 'RequirementsManager']);
 var utilities = angular.module('Utilities', []);
 var projectmanager = angular.module('ProjectManager', ['Utilities']);
+var reqs = angular.module('RequirementsManager', ['Utilities']);
+var reqUtils = angular. module('RequirementUtilities', ['Utilities', 'RequirementsManager']);
+
 utilities.directive('confirmAction', function() {
 	return function(scope, element, attrs) {
 		element.on("click", function(e) {
@@ -69,7 +72,6 @@ projectmanager.factory('ProjectLoader', function($http, $q) {
 });
 
 projectmanager.controller('ProjectsController', function($rootScope, $scope, $http, ProjectLoader) {
-
 	$rootScope.projects = [];
 
 	ProjectLoader.loadProjects().success(function() {
@@ -116,5 +118,16 @@ projectmanager.controller('ProjectsController', function($rootScope, $scope, $ht
  	$scope.resetCurrentProject = function() {
  		$rootScope.currentProject = { status : "presales" };
  	}
+
+});
+
+reqs.controller('RequirementsController', function($window, $http, $scope) {
+
+	$scope.requirements = $window.requirements;
+
+	if ($scope.requirements==undefined) alert("not set");
+	$scope.dirty = function(r) {
+		r.dirty = true;
+	};
 
 });
