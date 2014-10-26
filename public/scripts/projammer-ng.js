@@ -6,8 +6,10 @@ angular.module('ng').filter("timeAgo", function() {
 	}
 });
 
-var Projammer = angular.module("Projammer", []);
-Projammer.directive('confirmAction', function() {
+var Projammer = angular.module("Projammer", ['ProjectManager', 'Utilities']);
+var utilities = angular.module('Utilities', []);
+var projectmanager = angular.module('ProjectManager', ['Utilities']);
+utilities.directive('confirmAction', function() {
 	return function(scope, element, attrs) {
 		element.on("click", function(e) {
 			e.preventDefault();
@@ -34,7 +36,7 @@ Projammer.directive('confirmAction', function() {
 
 });
 
-Projammer.factory('ProjectLoader', function($http, $q) {
+projectmanager.factory('ProjectLoader', function($http, $q) {
 
 	return {
 		projects : [],
@@ -66,7 +68,7 @@ Projammer.factory('ProjectLoader', function($http, $q) {
 	
 });
 
-Projammer.controller('ProjectsController', function($rootScope, $scope, $http, ProjectLoader) {
+projectmanager.controller('ProjectsController', function($rootScope, $scope, $http, ProjectLoader) {
 
 	$rootScope.projects = [];
 
