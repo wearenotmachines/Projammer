@@ -115,4 +115,8 @@ class Project extends ProjammerModel {
 		return $this->hasMany("Projammer\Models\Artefact");
 	}
 
+	public function requirements() {
+		return $this->hasMany("Projammer\Models\Requirement");
+	}
+
 }

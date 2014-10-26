@@ -60,7 +60,7 @@ class ProjectController extends ProjammerController {
 	 */
 	public function show($id) {
 		$p = Project::find($id);
-		$this->layout->contextNavigation = View::make("common.contextNavigation", array("active"=>"definition"));
+		$this->layout->contextNavigation = View::make("common.contextNavigation", array("active"=>"definition", "project"=>$p));
 		$this->layout->currentProject = $p;
 		$this->layout->content = View::make("projects.summary", array("project"=>$p, "creationDate"=>new Carbon($p->created_at), "updatedDate"=>new Carbon($p->updated_at)));
 	}
