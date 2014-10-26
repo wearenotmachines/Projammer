@@ -28,7 +28,7 @@ abstract class APIController extends ProjammerController {
 	 * The body of the API output this is going to be array_merge'd in the output function so use a dictionary to properly control the output
 	 * @var array
 	 */
-	protected $_payload;
+	protected $_payload = array();
 	/**
 	 * A array of parameters - these begin as Params supplied by the user but will be validated and normalized in the arrays below
 	 * @var array
