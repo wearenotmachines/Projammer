@@ -43,6 +43,12 @@ Route::get("/projects/listing", "Projammer\Controllers\ProjectController@listing
 
 /**************************** PROJECT ROUTES END *************************************/
 
+/**************************** REQUIREMENTS ROUTES *****************************************/
+
+Route::get("/project/{id}/requirements", "Projammer\Controllers\RequirementsController@index");
+
+/**************************** REQUIREMENTS ROUTES END *************************************/
+
 /**************************** DELIVERABLES ROUTES *****************************************/
 
 Route::get("/project/{identifier}/estimate", "App\Projammer\Controllers\DeliverableController@estimate");
