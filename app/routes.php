@@ -59,4 +59,5 @@ Route::resource("deliverable", "App\Projammer\Controllers\DeliverableController"
 
 /**************************** API ROUTES **********************************************/
 Route::resource("api/project", "Projammer\Controllers\API\ProjectAPIController");
+Route::resource("api/requirement", "Projammer\Controllers\API\RequirementAPIController");
 /**************************************************************************************/
