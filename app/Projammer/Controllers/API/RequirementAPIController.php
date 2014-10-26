@@ -42,7 +42,12 @@ class RequirementAPIController extends APIController {
 	}
 
 	public function store() {
-	
+		$this->_method = "store";
+		$r = new Requirement(Input::get("requirement"));
+		$r->created_by = Auth::user()->id;
+		$r->save();
+		$this->_payload = [ "requirement"=>$r ];
+		return $this->_output();
 	}	
 
 	public function edit($identifier) {
@@ -50,11 +55,22 @@ class RequirementAPIController extends APIController {
 	}
 
 	public function update($identifier) {
-
+		$this->_method = "update";
+		$r = Requirement::find($identifier);
+		foreach (Input::get("requirement") AS $k=>$v) {
+			$r->{$k} = $v;
+		}
+		$r->save();
+		$this->_payload = [ "requirement"=>$r ];
+		return $this->_output();
 	}
 
 	public function destroy($identifier) {
-
+		$this->_method = "destroy";
+		$r = Requirement::find($identifier);
+		$this->_messages[] = "The ".str_limit($r->name, 50, "...")." has been deleted";
+		$r->delete();
+		return $this->_output();
 	}
 
 }

@@ -12,6 +12,11 @@ var projectmanager = angular.module('ProjectManager', ['Utilities']);
 var reqs = angular.module('RequirementsManager', ['Utilities']);
 var reqUtils = angular. module('RequirementUtilities', ['Utilities', 'RequirementsManager']);
 
+/**
+ * A reusable "Are you sure?"
+ * @return void
+ * @usage add the directive confirm-action="function to call on clicking 'yes' goes here"
+ */
 utilities.directive('confirmAction', function() {
 	return function(scope, element, attrs) {
 		element.on("click", function(e) {
@@ -33,6 +38,10 @@ utilities.directive('confirmAction', function() {
 			});
 			confirm.on("click", function(g) {
 				scope.$apply(attrs.confirmAction);	
+				span.remove();
+				confirm.remove();
+				deny.remove();
+				element.show();
 			});
 		});
 	};
@@ -124,10 +133,41 @@ projectmanager.controller('ProjectsController', function($rootScope, $scope, $ht
 reqs.controller('RequirementsController', function($window, $http, $scope) {
 
 	$scope.requirements = $window.requirements;
-
+	$scope.currentProject = $window.project.id;
+	$scope.newRequirement = { "project_id" : $scope.currentProject, "priority" : "M", "status" : "proposed", "complexity" : "hours"};
 	if ($scope.requirements==undefined) alert("not set");
+
 	$scope.dirty = function(r) {
 		r.dirty = true;
 	};
+
+	$scope.saveRequirement = function(requirement) {
+		cleanedRequirement = _.pick(requirement, ["code", "project_id", "name", "status", "complexity", "priority"]);
+		if (requirement.id!=undefined) {
+			$http.put("/api/requirement/"+requirement.id, { requirement : cleanedRequirement})
+				 .success(function(output) {
+				 	requirement.dirty = false;
+				 });
+		} else {
+			$http.post("/api/requirement", {requirement : cleanedRequirement })
+				 .success(function(output){
+					requirement = output.requirement;
+					requirement.dirty = false;
+					requirements.push(requirement);
+					$scope.newRequirement = { "project_id" : $scope.currentProject, "priority" : "M", "status" : "proposed", "complexity" : "hours"};
+				});
+		}
+	};
+
+	$scope.deleteRequirement = function(requirement) {
+		$http.delete("/api/requirement/"+requirement.id)
+		     .success(function(output) {
+		     	$scope.requirements.splice($scope.requirements.indexOf(requirement), 1);
+		     });
+	},
+
+	$scope.resetRequirement = function() {
+		$scope.newRequirement = { "project_id" : $scope.currentProject, "priority" : "M", "status" : "proposed", "complexity" : "hours"};
+	}
 
 });
