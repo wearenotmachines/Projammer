@@ -19,7 +19,7 @@ class Requirement extends ProjammerModel {
 	protected $validation = [
 		"project_id"=>"required",
 		"name" => "required",
-		"code" => "max:8",
+		"code" => "required|max:8",
 		"status"=>"sometimes|in:proposed,confirmed,implemented,abandoned",
 		"complexity" => "sometimes|in:minutes,hours,days,complex,research",
 		"priority" => "sometimes|in:M,S,C,W",

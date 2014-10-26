@@ -60,7 +60,14 @@ class RequirementAPIController extends APIController {
 		foreach (Input::get("requirement") AS $k=>$v) {
 			$r->{$k} = $v;
 		}
-		$r->save();
+		if (empty(Input::get("requirement.code"))) {
+			$r->code = "";
+		}
+		if ($r->isValid()) {
+			$r->save();
+		} else {
+			$this->_makeErrorMessage($r->getErrors());
+		}
 		$this->_payload = [ "requirement"=>$r ];
 		return $this->_output();
 	}

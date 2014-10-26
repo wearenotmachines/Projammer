@@ -147,6 +147,10 @@ reqs.controller('RequirementsController', function($window, $http, $scope) {
 			$http.put("/api/requirement/"+requirement.id, { requirement : cleanedRequirement})
 				 .success(function(output) {
 				 	requirement.dirty = false;
+				 }).error(function(output) {
+				 	for (var error in output.errors) {
+				 		alert(output.errors[error]);
+				 	}
 				 });
 		} else {
 			$http.post("/api/requirement", {requirement : cleanedRequirement })
