@@ -118,7 +118,7 @@ class CreateBaseTables extends Migration {
 			$table->enum("status", ["proposed", "confirmed", "implemented", "abandoned"])->nullable()->default("proposed");
 			$table->enum("complexity", ["minutes", "hours", "days", "complex", "research"])->nullable()->default("hours");
 			$table->text("note")->nullable();
-			$table->enum("priority", ["M", "S", "C", "W"])->nullable();
+			$table->enum("priority", ["M", "S", "C", "W"])->nullable()->default("M");
 			$table->integer("phase_id")->unsigned()->nullable();
 			$table->integer("deliverable_id")->unsigned()->nullable();
 			$table->integer("created_by")->unsigned();
