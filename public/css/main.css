@@ -1,6 +1,9 @@
 *[data-state=dirty] {
 	background:#efefef;
 }
+table thead tr th.centre {
+	text-align:center;
+}
 pre {
 	margin:20px 0px !important;
 	width:80%;
