@@ -26,7 +26,7 @@
 		</table>
 	</div>
 
-		<a href="" ng-click="resetCurrentProject();showEditor=true">Create Project</a>
+		<a href="" class="btn btn-default" ng-click="resetCurrentProject();showEditor=true">Create Project</a>
 		<div class="newProject" ng-show="showEditor">
 			<form>
 			<input type="hidden" name="id" ng-model="currentProject.id" />
