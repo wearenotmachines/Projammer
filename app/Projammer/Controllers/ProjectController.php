@@ -2,7 +2,7 @@
 
 use Projammer\Models\Project;
 use Projammer\Models\Client;
-use View, Input, Auth, Redirect;
+use View, Input, Auth, Redirect, Carbon\Carbon;
 
 class ProjectController extends ProjammerController {
 
@@ -59,9 +59,10 @@ class ProjectController extends ProjammerController {
 	 * @return Response
 	 */
 	public function show($id) {
-		$this->layout = null;
 		$p = Project::find($id);
-		echo $p;
+		$this->layout->contextNavigation = View::make("common.contextNavigation", array("active"=>"definition"));
+		$this->layout->currentProject = $p;
+		$this->layout->content = View::make("projects.summary", array("project"=>$p, "creationDate"=>new Carbon($p->created_at), "updatedDate"=>new Carbon($p->updated_at)));
 	}
 
 
