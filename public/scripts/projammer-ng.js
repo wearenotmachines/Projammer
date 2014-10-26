@@ -7,11 +7,38 @@ angular.module('ng').filter("timeAgo", function() {
 });
 
 var Projammer = angular.module("Projammer", []);
+Projammer.directive('confirmAction', function() {
+	return function(scope, element, attrs) {
+		element.on("click", function(e) {
+			e.preventDefault();
+			$(this).hide();
+			var span = $("<span>Are you sure? </span>");
+			$(this).parent().append(span);
+			var confirm = $('<a href="#">Yes</a>');
+			var deny = $('<a href="#">No</a>');
+			$(this).parent().append(confirm);
+			$(this).parent().append(" ");
+			$(this).parent().append(deny);
+			deny.on("click", function(f) {
+				f.preventDefault();
+				element.show();
+				span.remove();
+				confirm.remove();
+				deny.remove();
+			});
+			confirm.on("click", function(g) {
+				scope.$apply(attrs.confirmAction);	
+			});
+		});
+	};
+
+});
 
 Projammer.factory('ProjectLoader', function($http, $q) {
 
 	return {
 		projects : [],
+		currentProject : {},
 		loaded : false,
 		load : $http.get("/api/project"),
 
@@ -33,16 +60,22 @@ Projammer.factory('ProjectLoader', function($http, $q) {
 		},	
 		addProject : function(project) {
 			projects.push(project);
-		}
+		},
+		
 	}	
 	
 });
 
-Projammer.controller('ProjectOverviewController', function($scope, $http, ProjectLoader) {
+Projammer.controller('ProjectsController', function($rootScope, $scope, $http, ProjectLoader) {
+
+	$rootScope.projects = [];
 
 	ProjectLoader.loadProjects().success(function() {
-		$scope.projects = ProjectLoader.getProjects()
+		$rootScope.projects = ProjectLoader.getProjects()
 	});
+ 	
+ 	$rootScope.currentProject = ProjectLoader.currentProject;
+ 	$rootScope.currentProject.status = "presales";
 
 	$scope.updateProjectStatus = function(project) {
 		$http.put("/project/"+project.id, { project : 
@@ -55,19 +88,31 @@ Projammer.controller('ProjectOverviewController', function($scope, $http, Projec
 		});
 	};
 
-});
-
-Projammer.controller('ProjectEditorController', ['$scope', '$http', function($scope, $http) {
-
- 	$scope.project = {
- 		status : "presales"
+ 	$scope.updateProject = function() {
+ 		console.log($rootScope.currentProject);
+ 		if ($rootScope.currentProject.id) {
+ 			$http.put("/api/project/"+$rootScope.currentProject.id, { project : $rootScope.currentProject}).success(function(output) {
+ 				$rootScope.currentProject.updated_at = moment($rootScope.updated_at).fromNow();
+ 			});
+ 		} else {
+ 			$http.post("/api/project", { project :$rootScope.currentProject }).success(function(output) {
+ 				ProjectLoader.addProject(output.project);
+ 			});
+ 		}	
  	};
- 	$scope.createProject = function() {
- 		console.log($scope.project);
- 		console.log("Creating Project");
- 		$http.post("/api/project", { project : $scope.project }).success(function(output) {
- 			console.log(output);
- 		});
+
+ 	$scope.editProject = function(project) {
+ 		$rootScope.currentProject = ProjectLoader.currentProject = project;
+ 	};
+
+ 	$scope.deleteProject = function(project) {
+ 		$http.delete("/api/project/"+project.id).success(function(output) {
+ 			$rootScope.projects.splice($rootScope.projects.indexOf(project), 1);
+ 		});	
+ 	};
+
+ 	$scope.resetCurrentProject = function() {
+ 		$rootScope.currentProject = { status : "presales" };
  	}
 
- }]);
+});

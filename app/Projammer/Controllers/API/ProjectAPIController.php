@@ -60,6 +60,7 @@ class ProjectAPIController extends APIController {
 	 * @return \Illuminate\Http\JsonResponse             An APIController response a 'project' key listing the matched object
 	 */
 	public function show($identifier) {
+		$this->_method = "show";
 		$project = Project::with("creator")->where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
 		$this->_payload = array("project"=>$project);
 		return $this->_output();
@@ -71,17 +72,32 @@ class ProjectAPIController extends APIController {
 	 * @return \Illuminate\Http\JsonResponse             An APIController response a 'project' key listing the matched object
 	 */
 	public function edit($identifier) {
+		$this->_method = "edit";
 		$project = Project::with("creator")->where("id", "=", $identifier)->orWhere("name", "=", $identifier)->first();
 		$this->_payload = array("project"=>$project);
 		return $this->_jsonResponse();
 	}
 
 	public function update($identifier) {
-
+		$this->_method = "update";
+		$project = Project::find($identifier);
+		$project->name = Input::get("project.name");
+		$project->description = Input::get("project.description");
+		$project->status = Input::get("project.status");
+		$project->last_updated_by = Auth::user()->id;
+		$project->touch();
+		$project->save();
+		$project->load("updater");
+		$this->_payload = array("project"=>$project);
+		return $this->_output();
 	}
 
 	public function destroy($identifier) {
-
+		$this->_method = "destroy";
+		$project = Project::find($identifier);
+		$this->_messages[] = "Project: ".$project->name." has been deleted";
+		$project->delete();
+		return $this->_output();
 	}
 
 	
