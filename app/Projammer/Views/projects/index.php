@@ -14,13 +14,13 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="project in projects">
-				<td><a href="" ng-click="editProject(project);$parent.showEditor=true">{{project.name}}</a></td>
+				<td><a href="/project/{{project.id}}">{{project.name}}</a> <a href="" ng-click="editProject(project);$parent.showEditor=true" class="pull-right btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
 				<td><?= Form::select("project.status", $projectStatuses, null, array("autocomplete"=>"off", "ng-model"=>"project.status", "ng-change"=>"updateProjectStatus(project)")); ?></td>
 				<td>{{project.creator.display_name}}</td>
 				<td>{{ project.created_at | timeAgo }}</td>
 				<td>{{ project.updated_at | timeAgo }}</td>
 				<td>{{ project.updater.display_name }}</td>
-				<td><a href="" confirm-action="deleteProject(project)">Delete this</a></td>
+				<td><a href="" confirm-action="deleteProject(project)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete this</a></td>
 			</tr>
 		</tbody>
 		</table>

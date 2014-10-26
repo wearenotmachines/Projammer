@@ -14,8 +14,8 @@ Projammer.directive('confirmAction', function() {
 			$(this).hide();
 			var span = $("<span>Are you sure? </span>");
 			$(this).parent().append(span);
-			var confirm = $('<a href="#">Yes</a>');
-			var deny = $('<a href="#">No</a>');
+			var confirm = $('<a href="#" class="btn btn-xs btn-danger">Yes</a>');
+			var deny = $('<a href="#" class="btn btn-xs btn-default">No</a>');
 			$(this).parent().append(confirm);
 			$(this).parent().append(" ");
 			$(this).parent().append(deny);
