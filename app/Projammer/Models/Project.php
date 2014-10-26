@@ -10,13 +10,14 @@ use Projammer\Models\Client;
 use Projammer\Models\Deliverable;
 use Projammer\Traits\HasCreatorTrait;
 use Projammer\Traits\HasUpdaterTrait;
+use SoftDeletingTrait;
 
 /**
  * Defines an identified and contained unit of work for a *Client*, composed of a set of *Requirements*, developed in one or more *Iterations* that yield a set of *Deliverables*, scheduled against *Milestones*
  * @package  Projammer
  */
 class Project extends ProjammerModel {
-	use HasCreatorTrait, HasUpdaterTrait;
+	use HasCreatorTrait, HasUpdaterTrait, SoftDeletingTrait;
 	/**
 	 * @ignore
 	 */
