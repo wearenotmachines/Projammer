@@ -10,6 +10,10 @@ class Requirement extends ProjammerModel {
 	protected $table = "requirements";
 	protected $fillable = ["code", "name", "status", "complexity", "note", "priority", "phase_id", "deliverable_id", "project_id", "created_by", "last_updated_by"];
 
+	public static $priorities = [ "M"=>"Must have","S"=>"Should have","C"=>"Could have","W"=>"Would be nice to have"];
+	public static $complexities = [ "hours", "minutes", "days", "complex", "research" ];
+	public static $statuses = [ "proposed", "confirmed", "implemented", "abandoned" ];
+
 	protected $validation = [
 		"project_id"=>"required",
 		"name" => "required",
@@ -35,4 +39,5 @@ class Requirement extends ProjammerModel {
 	public function deliverable() {
 		return $this->belongsTo("App\Projammer\Models\Deliverable");
 	}
+
 }
