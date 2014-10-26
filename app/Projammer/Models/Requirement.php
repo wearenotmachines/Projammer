@@ -2,7 +2,9 @@
 
 use Projammer\Traits\HasCreatorTrait;
 use Projammer\Traits\HasUpdaterTrait;
-
+/**
+ * @observedBy RequirementObserver
+ */
 
 class Requirement extends ProjammerModel {
 	use HasCreatorTrait, HasUpdaterTrait;

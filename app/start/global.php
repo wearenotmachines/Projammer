@@ -82,3 +82,4 @@ require app_path().'/filters.php';
 
 View::addLocation(app('path').'/Projammer/Views');
 View::addNamespace('Projammer', app('path').'/Projammer/Views');
+require app_path()."/Projammer/observers.php";
