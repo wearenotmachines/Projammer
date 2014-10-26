@@ -111,7 +111,7 @@ abstract class APIController extends ProjammerController {
 	 * @param  array  $options listing output control - ie num, offset
 	 * @return \Illuminate\Http\JsonResponse          A \Illuminate\Http\JsonResponse string
 	 */
-	abstract function index($options=array());
+	abstract function index();
 
 	/**
 	 * An object creation function

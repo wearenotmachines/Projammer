@@ -21,8 +21,9 @@ class ProjectAPIController extends APIController {
 	 * @param  array  $params Received params - normalized to [ num => int (>=0), offset => int (>=0) ]
 	 * @return \Illuminate\Http\JsonResponse        An APIController response with a 'project's key containing project listings
 	 */
-	public function index($params=array()) {
+	public function index() {
 		$this->_method = "index";
+		$params = Input::all();
 		if ($this->_checkParams($this->_params=$params, $this->_method)) {
 			$this->_payload = ["projects"=>Project::with(["creator", "updater"])->skip($this->_params["offset"])->take($this->_params["num"])->get()];
 		}
